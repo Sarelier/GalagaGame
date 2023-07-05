@@ -248,11 +248,11 @@ int main()
 	NAVE Personaje(49,34,3);   //se crea la nave principal con sus atributos
 	Personaje.pintar();
 	Personaje.pintarCorazones();
-	list<NaveAlien*> enjambre;          
+	list<NaveAlien*> enjambre;              //lista de naves alien     
 	list<NaveAlien*>::iterator itAlien;
-	int velocidad = 0;
-	int nae = 0;
-	for (int i = 0; i < 7; i++) {
+	int velocidad = 0;                      //variable para disminuir la velocidad
+	int nae = 0;                            //variable para contar el numero de naves destruidas
+	for (int i = 0; i < 7; i++) {          //se crean naves alien
 		for (int j = 0; j < 3; j++) {
 			NaveAlien* nave = new NaveAlien(4 + (i * 10), 4 + (j * 4));
 			enjambre.push_back(nave);
@@ -260,22 +260,22 @@ int main()
 		}
 	}
 
-	list<Disparo*> Bala;
+	list<Disparo*> Bala;                     //se crean las balas
 	list<Disparo*>::iterator itBala;
-	bool gameOver = false;
-	bool victoria = false;
+	bool gameOver = false;                 //condicion de derrota
+	bool victoria = false;			//condicion de victoria
 
-	while (!gameOver && !victoria)
+	while (!gameOver && !victoria)          //ciclo del juego
 	{	
 		velocidad++;
 
-		if (velocidad >= 10)
-			for (auto it = enjambre.begin(); it != enjambre.end(); ++it) {
+		if (velocidad >= 10)  // if para disminuir velocidad de las naves
+			for (auto it = enjambre.begin(); it != enjambre.end(); ++it) {     //movimiento de las naves alien
 				(*it)->mover();
 				(*it)->colsionNave(Personaje);
 			}
 			velocidad = 0;
-			if(_kbhit())
+			if(_kbhit())                            //codigo para asignar tecla de disparo
 			{
 				char tecla = _getch();
 				if (tecla == 'a' || tecla == 'A')
@@ -283,7 +283,7 @@ int main()
 					Bala.push_back(new Disparo(Personaje.X() + 2, Personaje.Y() - 1));
 				}
 			}
-			//Disparo
+			//Disparo y sus colisiones
 			for (itBala = Bala.begin() ; itBala != Bala.end() ;)
 			{
 				(*itBala)->mover();
@@ -316,7 +316,7 @@ int main()
 					itAlien++;
 				}
 			}
-			for (itAlien = enjambre.begin(); itAlien != enjambre.end();)
+			for (itAlien = enjambre.begin(); itAlien != enjambre.end();)   //choque entre la nave alien y la nave principal
 			{
 				bool colision = false;
 				for (itBala = Bala.begin(); itBala != Bala.end();)
@@ -345,7 +345,7 @@ int main()
 				}
 			}
 
-		if (Personaje.vidasJugador() <= 0)
+		if (Personaje.vidasJugador() <= 0)        //condicion de derrota
 		{
 			
 			gameOver = true;
@@ -354,7 +354,7 @@ int main()
 			
 
 		}
-		if ( nae <= 0)
+		if ( nae <= 0)           //condicion de victoria
 		{
 			
 			victoria = true;
